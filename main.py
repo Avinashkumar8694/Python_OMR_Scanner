@@ -1,0 +1,205 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'scanner.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+import pymysql
+import os
+conn=pymysql.connect(host="localhost",user="root",password="123456",db="omr_python")
+
+class Ui_Dialog(object):
+    def load_all_omr_image(self):
+        directory = '/home/avinash/Documents/project/matlab_omr_scanner/python_omrscanner/images/'
+        os.chdir(directory)
+        cur=conn.cursor()
+        
+        list = os.listdir(directory)
+        for ls in list:
+            query = "INSERT INTO scanned_images (omr_sheet) VALUES('" + ls + "')" 
+            result = cur.execute(query)
+            conn.commit()
+            cur.close()
+            print(ls)
+        
+    def load_data(self):
+        self.load_all_omr_image()
+        cur=conn.cursor()
+        query = "select * from answers"
+        result = cur.execute(query)
+        
+        records = cur.fetchall()
+        row_size = len(records)
+        self.Responce_Table.setRowCount(0)
+        j=0
+        for row in records:
+            col_size = len(row)
+            self.Responce_Table.insertRow(j)
+            for i in range(0,124):
+                self.Responce_Table.setItem(j,i,QtWidgets.QTableWidgetItem(row[i]))
+        j = j + 1    
+        cur.close()
+
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(1270, 560)
+        Dialog.setMinimumSize(QtCore.QSize(1270, 560))
+        Dialog.setMaximumSize(QtCore.QSize(1270, 560))
+        Dialog.setAutoFillBackground(True)
+        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2.setGeometry(QtCore.QRect(480, 20, 131, 16))
+        font = QtGui.QFont()
+        font.setFamily("padmaa-Bold.1.1")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.frame = QtWidgets.QFrame(Dialog)
+        self.frame.setGeometry(QtCore.QRect(10, 40, 281, 231))
+        self.frame.setAutoFillBackground(True)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.Hall_Ticket = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket.setGeometry(QtCore.QRect(10, 100, 151, 21))
+        font = QtGui.QFont()
+        font.setFamily("padmaa-Bold.1.1")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket.setFont(font)
+        self.Hall_Ticket.setAutoFillBackground(True)
+        self.Hall_Ticket.setObjectName("Hall_Ticket")
+        self.qr_Code = QtWidgets.QLabel(self.frame)
+        self.qr_Code.setGeometry(QtCore.QRect(10, 10, 261, 51))
+        self.qr_Code.setText("")
+        self.qr_Code.setPixmap(QtGui.QPixmap("../qr_Pixel.png"))
+        self.qr_Code.setScaledContents(True)
+        self.qr_Code.setObjectName("qr_Code")
+        self.Hall_Ticket_no = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket_no.setGeometry(QtCore.QRect(150, 100, 111, 21))
+        font = QtGui.QFont()
+        font.setFamily("Padauk Book [PYRS]")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket_no.setFont(font)
+        self.Hall_Ticket_no.setAlignment(QtCore.Qt.AlignCenter)
+        self.Hall_Ticket_no.setObjectName("Hall_Ticket_no")
+        self.Hall_Ticket_3 = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket_3.setGeometry(QtCore.QRect(10, 130, 121, 21))
+        font = QtGui.QFont()
+        font.setFamily("padmaa-Bold.1.1")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket_3.setFont(font)
+        self.Hall_Ticket_3.setAutoFillBackground(True)
+        self.Hall_Ticket_3.setObjectName("Hall_Ticket_3")
+        self.Hall_Ticket_no_3 = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket_no_3.setGeometry(QtCore.QRect(150, 130, 111, 21))
+        font = QtGui.QFont()
+        font.setFamily("Padauk Book [PYRS]")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket_no_3.setFont(font)
+        self.Hall_Ticket_no_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.Hall_Ticket_no_3.setObjectName("Hall_Ticket_no_3")
+        self.Hall_Ticket_4 = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket_4.setGeometry(QtCore.QRect(10, 160, 151, 21))
+        font = QtGui.QFont()
+        font.setFamily("padmaa-Bold.1.1")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket_4.setFont(font)
+        self.Hall_Ticket_4.setAutoFillBackground(True)
+        self.Hall_Ticket_4.setObjectName("Hall_Ticket_4")
+        self.Hall_Ticket_no_4 = QtWidgets.QLabel(self.frame)
+        self.Hall_Ticket_no_4.setGeometry(QtCore.QRect(150, 160, 111, 21))
+        font = QtGui.QFont()
+        font.setFamily("Padauk Book [PYRS]")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Hall_Ticket_no_4.setFont(font)
+        self.Hall_Ticket_no_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.Hall_Ticket_no_4.setObjectName("Hall_Ticket_no_4")
+        self.frame_2 = QtWidgets.QFrame(Dialog)
+        self.frame_2.setGeometry(QtCore.QRect(10, 440, 281, 111))
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.Next = QtWidgets.QPushButton(self.frame_2)
+        self.Next.setGeometry(QtCore.QRect(20, 20, 75, 23))
+        self.Next.setIconSize(QtCore.QSize(16, 16))
+        self.Next.setObjectName("Next")
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame_2)
+        self.pushButton_2.setGeometry(QtCore.QRect(150, 20, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.Exit = QtWidgets.QPushButton(self.frame_2)
+        self.Exit.setGeometry(QtCore.QRect(90, 70, 75, 23))
+        self.Exit.setObjectName("Exit")
+        self.Scanned_Img = QtWidgets.QLabel(Dialog)
+        self.Scanned_Img.setGeometry(QtCore.QRect(320, 40, 421, 511))
+        self.Scanned_Img.setAutoFillBackground(True)
+        self.Scanned_Img.setText("")
+        self.Scanned_Img.setPixmap(QtGui.QPixmap("../1285_Pixel.jpg"))
+        self.Scanned_Img.setScaledContents(True)
+        self.Scanned_Img.setWordWrap(False)
+        self.Scanned_Img.setObjectName("Scanned_Img")
+        self.Responce_Table = QtWidgets.QTableWidget(Dialog)
+        self.Responce_Table.setGeometry(QtCore.QRect(770, 40, 491, 511))
+        self.Responce_Table.setMouseTracking(False)
+        self.Responce_Table.setRowCount(0)
+        self.Responce_Table.setColumnCount(124)
+        self.Responce_Table.setObjectName("Responce_Table")
+        self.label_4 = QtWidgets.QLabel(Dialog)
+        self.label_4.setGeometry(QtCore.QRect(950, 20, 131, 16))
+        font = QtGui.QFont()
+        font.setFamily("padmaa-Bold.1.1")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        
+        self.pushButton_2.clicked.connect(self.load_data)
+
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.label_2.setText(_translate("Dialog", "OMR Sheet"))
+        self.Hall_Ticket.setText(_translate("Dialog", "Hall Ticket No.:"))
+        self.Hall_Ticket_no.setText(_translate("Dialog", "0000000"))
+        self.Hall_Ticket_3.setText(_translate("Dialog", "Booklet No.:"))
+        self.Hall_Ticket_no_3.setText(_translate("Dialog", "0000000"))
+        self.Hall_Ticket_4.setText(_translate("Dialog", "Version Code:"))
+        self.Hall_Ticket_no_4.setText(_translate("Dialog", "0"))
+        self.Next.setText(_translate("Dialog", "Next"))
+        self.pushButton_2.setText(_translate("Dialog", "Skip"))
+        self.Exit.setText(_translate("Dialog", "Exit"))
+        self.label_4.setText(_translate("Dialog", "OMR Responce"))
+
+
+if __name__ == "__main__":
+    import sys
+    
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    ui.load_data()
+    #ui.load_all_omr_image()
+    Dialog.show()
+    
+    sys.exit(app.exec_())
+
